@@ -1,0 +1,7 @@
+C:\Development\Tools\CodeEditor\CodeEditor\bin\Debug\netstandard2.0\CodeEditor.deps.json
+C:\Development\Tools\CodeEditor\CodeEditor\bin\Debug\netstandard2.0\CodeEditor.dll
+C:\Development\Tools\CodeEditor\CodeEditor\bin\Debug\netstandard2.0\CodeEditor.pdb
+C:\Development\Tools\CodeEditor\CodeEditor\obj\Debug\netstandard2.0\CodeEditor.AssemblyInfoInputs.cache
+C:\Development\Tools\CodeEditor\CodeEditor\obj\Debug\netstandard2.0\CodeEditor.AssemblyInfo.cs
+C:\Development\Tools\CodeEditor\CodeEditor\obj\Debug\netstandard2.0\CodeEditor.dll
+C:\Development\Tools\CodeEditor\CodeEditor\obj\Debug\netstandard2.0\CodeEditor.pdb

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>CodeEditor</id>
+    <version>2.19.0</version>
+    <authors>Kurt W. Allen</authors>
+    <owners>Kurt W. Allen</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
+    <projectUrl>https://github.com/Gjoll/FhirKhit</projectUrl>
+    <description>Package Description</description>
+    <releaseNotes>FhirKhit tools common</releaseNotes>
+    <repository url="https://github.com/Gjoll/FhirKhit" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Development\Tools\CodeEditor\CodeEditor\bin\Debug\netstandard2.0\CodeEditor.dll" target="lib\netstandard2.0\CodeEditor.dll" />
+  </files>
+</package>
