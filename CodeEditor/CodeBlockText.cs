@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CodeEditor
+namespace Eir.CodeEditor
 {
     public class CodeBlockText : CodeBlock
     {

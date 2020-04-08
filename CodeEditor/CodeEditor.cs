@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml;
 
-namespace CodeEditor
+namespace Eir.CodeEditor
 {
     /// <summary>
     /// Class to edit code.

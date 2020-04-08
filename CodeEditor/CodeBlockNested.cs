@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml;
 
-namespace CodeEditor
+namespace Eir.CodeEditor
 {
     [DebuggerDisplay("{Name}")]
     public class CodeBlockNested : CodeBlock
