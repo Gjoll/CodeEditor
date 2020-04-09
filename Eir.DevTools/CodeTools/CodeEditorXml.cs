@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Eir.CodeEditor
+namespace Eir.DevTools
 {
     public class CodeEditorXml : CodeEditor
     {

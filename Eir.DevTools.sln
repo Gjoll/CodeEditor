@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29006.145
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eir.CodeEditor", "Eir.CodeEditor\Eir.CodeEditor.csproj", "{0AD1E81B-FF8B-4F24-BFBE-403B88EF5973}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eir.DevTools", "Eir.DevTools\Eir.DevTools.csproj", "{0AD1E81B-FF8B-4F24-BFBE-403B88EF5973}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eir.CodeEditor.XTests", "Eir.CodeEditor.XTests\Eir.CodeEditor.XTests.csproj", "{45108574-4FC5-4C0C-BEAB-25CFAB94B302}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eir.DevTools.XTests", "Eir.DevTools.XTests\Eir.DevTools.XTests.csproj", "{45108574-4FC5-4C0C-BEAB-25CFAB94B302}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

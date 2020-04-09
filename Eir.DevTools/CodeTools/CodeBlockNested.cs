@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevTools;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml;
 
-namespace Eir.CodeEditor
+namespace Eir.DevTools
 {
     [DebuggerDisplay("{Name}")]
     public class CodeBlockNested : CodeBlock

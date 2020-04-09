@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Schema;
 
-namespace Eir.CodeEditor
+namespace Eir.DevTools
 {
     public static class CodeEditorExtensions
     {
