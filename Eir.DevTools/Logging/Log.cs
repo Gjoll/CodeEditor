@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace DevTools
+namespace Eir.DevTools
 {
     public static class Log
     {

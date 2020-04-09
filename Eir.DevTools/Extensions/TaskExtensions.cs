@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DevTools
+namespace Eir.DevTools
 {
     public static class TaskExtensions
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Eir.MiscTools
+namespace Eir.DevTools
 {
     public static class DirHelper
     {

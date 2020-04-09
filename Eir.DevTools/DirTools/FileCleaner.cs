@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 
-namespace Eir.MiscTools
+namespace Eir.DevTools
 {
     /// <summary>
     /// Deletes un-marked files when saving goups of files.

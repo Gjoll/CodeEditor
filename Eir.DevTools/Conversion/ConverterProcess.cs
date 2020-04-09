@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DevTools
+namespace Eir.DevTools
 {
     /// <summary>
     /// Convert project that executes an external process.

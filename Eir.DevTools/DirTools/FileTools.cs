@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 
-namespace Eir.MiscTools
+namespace Eir.DevTools
 {
     public static class FileTools
     {

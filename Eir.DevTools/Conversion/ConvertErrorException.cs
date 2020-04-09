@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DevTools
+namespace Eir.DevTools
 {
     public class ConvertErrorException : Exception
     {
