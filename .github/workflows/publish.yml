@@ -30,7 +30,5 @@ jobs:
           dotnet pack -c Release -o out  
 
       - name: Push generated package to GitHub registry
-        run: |
-            dotnet nuget push ./Eir.DevTools/out/*.nupkg -k ${{secrets.NugetApiToken}} --skip-duplicate
-            dotnet nuget push ./Eir.DevTools/out/*.snupkg -k ${{secrets.NugetApiToken}} --skip-duplicate
+        run: dotnet nuget push ./Eir.DevTools/out/*.nupkg -k ${{secrets.NugetApiToken}} --skip-duplicate
         
