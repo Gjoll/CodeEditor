@@ -38,15 +38,4 @@
   <ItemGroup>
   </ItemGroup>
 
-  <Target Name="CopyPackage" AfterTargets="Pack">
-    <CreateItem Include="$(OutputPath)\..\CodeEditor.*nupkg">
-      <Output TaskParameter="Include" ItemName="FilesToCopy" />
-    </CreateItem>
-    <Move SourceFiles="@(FilesToCopy)" DestinationFolder="$(SolutionDir)Packages" />
-  </Target>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="del $(OutDir)..\*.nupkg" />
-  </Target>
-
 </Project>
