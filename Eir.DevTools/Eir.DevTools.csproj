@@ -11,7 +11,7 @@
     <PackageProjectUrl>https://github.com/Gjoll/Eir.DevTools</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Gjoll/Eir.DevTools</RepositoryUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageReleaseNotes>Various evelopment tools, used internally at Eir Solutions.</PackageReleaseNotes>
+    <PackageReleaseNotes>Various development tools, used internally at Eir Solutions.</PackageReleaseNotes>
     <PackageDescription>CodeEditor tools</PackageDescription>
   </PropertyGroup>
 
