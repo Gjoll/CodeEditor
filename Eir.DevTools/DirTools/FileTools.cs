@@ -16,7 +16,7 @@ namespace Eir.DevTools
                 if (File.Exists(path) == false)
                     return true;
                 String originalText = File.ReadAllText(path);
-                return String.CompareOrdinal(text, originalText) == 0;
+                return String.CompareOrdinal(text, originalText) != 0;
             }
 
             if (SaveText() == false)
