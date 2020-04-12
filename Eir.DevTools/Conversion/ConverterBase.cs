@@ -7,7 +7,7 @@ namespace Eir.DevTools
 {
     public abstract class ConverterBase : IConverter, IConversionInfo
     {
-        public delegate bool StatusDelegate(String className, String method, String msg);
+        public delegate void StatusDelegate(String className, String method, String msg);
 
         public event StatusDelegate StatusErrors;
         public event StatusDelegate StatusWarnings;
@@ -30,6 +30,22 @@ namespace Eir.DevTools
             this.info.Clear();
             this.warnings.Clear();
             this.errors.Clear();
+        }
+
+        public void ConsoleLogging()
+        {
+            this.StatusErrors += (name, method, msg) => ConsoleLog(ConsoleColor.Red, name, method, msg);
+            this.StatusInfo+= (name, method, msg) => ConsoleLog(ConsoleColor.White, name, method, msg);
+            this.StatusWarnings+= (name, method, msg) => ConsoleLog(ConsoleColor.DarkYellow, name, method, msg);
+        }
+
+        void ConsoleLog(ConsoleColor consoleColor, String className, String methodName, String msg)
+        {
+            ConsoleColor current = Console.ForegroundColor;
+
+            Console.ForegroundColor = consoleColor;
+            Console.WriteLine($"[{className}.{methodName}]: {msg}");
+            Console.ForegroundColor = current;
         }
 
         public void ConversionError(String className, String method, IEnumerable<String> msgs)
