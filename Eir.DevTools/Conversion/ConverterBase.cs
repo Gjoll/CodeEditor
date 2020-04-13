@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -24,6 +25,18 @@ namespace Eir.DevTools
         public IEnumerable<String> Info => this.info;
         List<String> info = new List<String>();
         public bool HasInfo => this.info.Count > 0;
+
+        public void TraceLogging()
+        {
+            this.StatusErrors += (name, method, msg) => TraceLog("Error", name, method, msg);
+            this.StatusInfo += (name, method, msg) => TraceLog("Info", name, method, msg);
+            this.StatusWarnings += (name, method, msg) => TraceLog("Warn", name, method, msg);
+        }
+
+        void TraceLog(String msgType, String className, String methodName, String msg)
+        {
+            Trace.WriteLine($"[{msgType}][{className}.{methodName}]: {msg}");
+        }
 
         public void ClearMessages()
         {
