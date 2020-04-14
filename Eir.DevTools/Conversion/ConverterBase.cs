@@ -33,9 +33,9 @@ namespace Eir.DevTools
             if (logErrors)
                 this.StatusErrors += (name, method, msg) => TraceLog("Error", name, method, msg);
             if (logWarnings)
-                this.StatusInfo += (name, method, msg) => TraceLog("Info", name, method, msg);
-            if (logInfo)
                 this.StatusWarnings += (name, method, msg) => TraceLog("Warn", name, method, msg);
+            if (logInfo)
+                this.StatusInfo += (name, method, msg) => TraceLog("Info", name, method, msg);
         }
 
         void TraceLog(String msgType, String className, String methodName, String msg)
@@ -57,9 +57,9 @@ namespace Eir.DevTools
             if (logErrors)
                 this.StatusErrors += (name, method, msg) => ConsoleLog(ConsoleColor.Red, name, method, msg);
             if (logWarnings)
-                this.StatusInfo += (name, method, msg) => ConsoleLog(ConsoleColor.White, name, method, msg);
-            if (logInfo)
                 this.StatusWarnings += (name, method, msg) => ConsoleLog(ConsoleColor.DarkYellow, name, method, msg);
+            if (logInfo)
+                this.StatusInfo += (name, method, msg) => ConsoleLog(ConsoleColor.White, name, method, msg);
         }
 
         void ConsoleLog(ConsoleColor consoleColor, String className, String methodName, String msg)
