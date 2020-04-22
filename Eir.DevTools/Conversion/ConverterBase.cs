@@ -40,7 +40,7 @@ namespace Eir.DevTools
 
         void TraceLog(String msgType, String className, String methodName, String msg)
         {
-            Trace.WriteLine($"[{msgType}][{className}.{methodName}]: {msg}");
+            Trace.WriteLine($"{msgType}:[{className}.{methodName}]: {msg}");
         }
 
         public void ClearMessages()
@@ -55,19 +55,22 @@ namespace Eir.DevTools
             bool logInfo = false)
         {
             if (logErrors)
-                this.StatusErrors += (name, method, msg) => ConsoleLog(ConsoleColor.Red, name, method, msg);
+                this.StatusErrors += (name, method, msg) => ConsoleLog(ConsoleColor.Red, "error", name, method, msg);
             if (logWarnings)
-                this.StatusWarnings += (name, method, msg) => ConsoleLog(ConsoleColor.DarkYellow, name, method, msg);
+                this.StatusWarnings += (name, method, msg) => ConsoleLog(ConsoleColor.DarkYellow, "warning", name, method, msg);
             if (logInfo)
-                this.StatusInfo += (name, method, msg) => ConsoleLog(ConsoleColor.White, name, method, msg);
+                this.StatusInfo += (name, method, msg) => ConsoleLog(ConsoleColor.White, "information", name, method, msg);
         }
 
-        void ConsoleLog(ConsoleColor consoleColor, String className, String methodName, String msg)
+        void ConsoleLog(ConsoleColor consoleColor,
+            String prefix,
+            String className,
+            String methodName, String msg)
         {
             ConsoleColor current = Console.ForegroundColor;
 
             Console.ForegroundColor = consoleColor;
-            Console.WriteLine($"[{className}.{methodName}]: {msg}");
+            Console.WriteLine($"{prefix}:[{className}.{methodName}]: {msg}");
             Console.ForegroundColor = current;
         }
 
