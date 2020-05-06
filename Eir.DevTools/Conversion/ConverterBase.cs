@@ -74,7 +74,7 @@ namespace Eir.DevTools
             Console.ForegroundColor = current;
         }
 
-        public void ConversionError(String className, String method, IEnumerable<String> msgs)
+        public virtual void ConversionError(String className, String method, IEnumerable<String> msgs)
         {
             if (className is null)
                 throw new ArgumentNullException(nameof(className));
@@ -84,7 +84,7 @@ namespace Eir.DevTools
                 ConversionError(className, method, msg);
         }
 
-        public void ConversionError(String className, String method, String msg)
+        public virtual void ConversionError(String className, String method, String msg)
         {
             if (className is null)
                 throw new ArgumentNullException(nameof(className));
@@ -100,7 +100,7 @@ namespace Eir.DevTools
                 StatusErrors(className, method, msg);
         }
 
-        public void ConversionWarn(String className, String method, IEnumerable<String> msgs)
+        public virtual void ConversionWarn(String className, String method, IEnumerable<String> msgs)
         {
             if (className is null)
                 throw new ArgumentNullException(nameof(className));
@@ -112,7 +112,7 @@ namespace Eir.DevTools
         }
 
 
-        public void ConversionWarn(String className, String method, String msg)
+        public virtual void ConversionWarn(String className, String method, String msg)
         {
             if (msg is null)
                 throw new ArgumentNullException(nameof(msg));
@@ -127,7 +127,7 @@ namespace Eir.DevTools
                 StatusWarnings(className, method, msg);
         }
 
-        public void ConversionInfo(String className, String method, IEnumerable<String> msgs)
+        public virtual void ConversionInfo(String className, String method, IEnumerable<String> msgs)
         {
             if (msgs is null)
                 throw new ArgumentNullException(nameof(msgs));
@@ -137,7 +137,7 @@ namespace Eir.DevTools
                 ConversionInfo(className, method, msg);
         }
 
-        public void ConversionInfo(String className, String method, String msg)
+        public virtual void ConversionInfo(String className, String method, String msg)
         {
             if (msg is null)
                 throw new ArgumentNullException(nameof(msg));
