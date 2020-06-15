@@ -43,6 +43,7 @@ namespace Eir.DevTools
         {
             lock (this)
             {
+                filePath = Path.GetFullPath(filePath);
                 this.existingFiles.Remove(filePath.ToLower());
             }
         }
