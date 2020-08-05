@@ -14,7 +14,7 @@ namespace Eir.DevTools
         /// <summary>
         /// Return true if empty.
         /// </summary>
-        public override bool Empty => Code.Count > 0;
+        public override bool Empty => Code.Count == 0 ? true : false;
 
         public CodeBlockText(CodeEditor owner) : base(owner)
         {
