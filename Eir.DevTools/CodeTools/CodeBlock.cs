@@ -7,6 +7,7 @@ namespace Eir.DevTools
     public abstract class CodeBlock
     {
         public CodeEditor owner { get; }
+        public abstract bool Empty { get; }
 
         public CodeBlock(CodeEditor owner)
         {

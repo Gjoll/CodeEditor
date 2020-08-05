@@ -11,6 +11,11 @@ namespace Eir.DevTools
         /// </summary>
         public List<String> Code {get; }  = new List<String>();
 
+        /// <summary>
+        /// Return true if empty.
+        /// </summary>
+        public override bool Empty => Code.Count > 0;
+
         public CodeBlockText(CodeEditor owner) : base(owner)
         {
         }

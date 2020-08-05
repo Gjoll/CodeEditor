@@ -16,6 +16,20 @@ namespace Eir.DevTools
         public const Int32 CommentCol = 140;
         public delegate void CodeCallback(CodeBlockNested code);
 
+        /// <summary>
+        /// Return true if empty.
+        /// </summary>
+        public override bool Empty
+        {
+            get
+            {
+                foreach (CodeBlock block in this.Children)
+                    if (block.Empty == false)
+                        return false;
+                return true;
+            }
+        }
+
         public String Name { get; }
         public IEnumerable<CodeBlockNested> AllNamedBlocks => this.NamedBlocks.Values;
 
