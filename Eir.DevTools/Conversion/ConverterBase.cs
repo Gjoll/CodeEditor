@@ -13,6 +13,7 @@ namespace Eir.DevTools
         public event StatusDelegate StatusErrors;
         public event StatusDelegate StatusWarnings;
         public event StatusDelegate StatusInfo;
+        public bool SkipDuplicateErrors { get; set; } = true;
 
         public IEnumerable<String> Errors => this.errors;
         List<String> errors = new List<String>();
@@ -94,6 +95,8 @@ namespace Eir.DevTools
             msg = msg.Trim();
             if (String.IsNullOrEmpty(msg))
                 return;
+            if ((this.SkipDuplicateErrors) && (this.errors.Contains(msg)))
+                return;
             Log.Error($"{className}.{method}", msg);
             this.errors.Add(msg);
             if (StatusErrors != null)
@@ -121,6 +124,8 @@ namespace Eir.DevTools
             if (String.IsNullOrEmpty(msg))
                 return;
 
+            if ((this.SkipDuplicateErrors) && (this.warnings.Contains(msg)))
+                return;
             Log.Warn($"{className}.{method}", msg);
             this.warnings.Add(msg);
             if (StatusWarnings != null)
@@ -146,6 +151,8 @@ namespace Eir.DevTools
             if (String.IsNullOrEmpty(msg))
                 return;
 
+            if ((this.SkipDuplicateErrors) && (this.info.Contains(msg)))
+                return;
             Log.Info($"{className}.{method}", msg);
             this.info.Add(msg);
             if (StatusInfo != null)
