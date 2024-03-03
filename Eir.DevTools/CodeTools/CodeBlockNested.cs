@@ -177,6 +177,19 @@ namespace Eir.DevTools
 
         /// <summary>
         /// Find names block.
+        /// throw exception if not found.
+        /// </summary>
+        /// <param name="blockName"></param>
+        /// <returns></returns>
+        public CodeBlockNested FindRequired(String blockName)
+        {
+            if (this.NamedBlocks.TryGetValue(blockName, out CodeBlockNested block) == false)
+                throw new Exception($"Required block {blockName} not found");
+            return block;
+        }
+
+        /// <summary>
+        /// Find names block.
         /// </summary>
         /// <param name="blockName"></param>
         /// <returns></returns>

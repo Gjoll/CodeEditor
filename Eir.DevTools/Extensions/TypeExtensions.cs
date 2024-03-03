@@ -16,23 +16,27 @@ namespace Eir.DevTools
             return t.Name == typeName;
         }
 
-        private static Dictionary<Type, string> m_TypesToFriendlyNames = new Dictionary<Type, string>
+        private static Dictionary<Type, string> simpleTypes = new Dictionary<Type, string>
         {
-            {typeof(bool), "bool"},
-            {typeof(byte), "byte"},
-            {typeof(sbyte), "sbyte"},
-            {typeof(char), "char"},
-            {typeof(decimal), "decimal"},
-            {typeof(double), "double"},
-            {typeof(float), "float"},
-            {typeof(int), "int"},
-            {typeof(uint), "uint"},
-            {typeof(long), "long"},
-            {typeof(ulong), "ulong"},
-            {typeof(object), "object"},
-            {typeof(short), "short"},
-            {typeof(ushort), "ushort"},
-            {typeof(string), "string"}
+            {typeof(bool), "Boolean"},
+            {typeof(byte), "Byte"},
+            {typeof(sbyte), "SByte"},
+            {typeof(char), "Char"},
+            {typeof(decimal), "Decimal"},
+            {typeof(double), "Double"},
+            {typeof(float), "Single"},
+            {typeof(int), "Int32"},
+            {typeof(uint), "UInt32"},
+            {typeof(long), "Int64"},
+            {typeof(ulong), "UInt64"},
+            {typeof(object), "Object"},
+            {typeof(short), "Int16"},
+            {typeof(ushort), "UInt16"},
+            {typeof(string), "String"},
+            {typeof(DateTime), "DateTime"},
+            {typeof(DateOnly), "DateOnly"},
+            {typeof(TimeOnly), "TimeOnly"},
+            {typeof(Guid), "Guid"}
         };
 
         static String CleanName(String name)
@@ -46,6 +50,25 @@ namespace Eir.DevTools
         public static bool IsList(this Type t) => t.IsType("List`1");
         public static bool IsCode(this Type t) => t.IsType("Code`1");
         public static bool IsNullable(this Type t) => t.IsType("Nullable`1");
+        public static bool IsSimple(this Type t)
+        {
+            Type underlyingType = Nullable.GetUnderlyingType(t);
+            if (underlyingType != null)
+                t = underlyingType;
+            return simpleTypes.ContainsKey(t);
+        }
+
+        public static String Default(this Type t)
+        {
+            Type underlyingType = Nullable.GetUnderlyingType(t);
+            if (underlyingType != null)
+                return "null";
+            if (!t.IsSimple())
+                return "null";
+            if (t == typeof(string))
+                return "String.Empty";
+            return "default";
+        }
 
         public static string FriendlyName(this Type type)
         {
@@ -59,7 +82,7 @@ namespace Eir.DevTools
             if (type.IsPointer)
                 return type.GetFriendlyNameOfPointerType();
             var aliasName = default(string);
-            if (m_TypesToFriendlyNames.TryGetValue(type, out aliasName))
+            if (simpleTypes.TryGetValue(type, out aliasName))
                 return aliasName;
             String name = CleanName(type.Name);
             if (type.DeclaringType == null)
