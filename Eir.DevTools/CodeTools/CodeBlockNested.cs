@@ -140,6 +140,22 @@ namespace Eir.DevTools
             return this;
         }
 
+        public CodeBlockNested SetBaseMargin(Int32 indentLevel)
+        {
+            this.baseMargin = String.Empty;
+            for (Int32 i = 0; i < indentLevel; i++)
+                this.baseMargin = this.baseMargin + IndentOneLevel;
+            return this;
+        }
+
+        public CodeBlockNested SetIndent(Int32 indentLevel)
+        {
+            this.indentMargin = String.Empty;
+            for (Int32 i = 0; i <  indentLevel; i++)
+                this.indentMargin = this.indentMargin + IndentOneLevel;
+            return this;
+        }
+
         public CodeBlockNested Indent()
         {
             this.indentMargin = this.indentMargin + IndentOneLevel;

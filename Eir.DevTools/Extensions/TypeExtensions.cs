@@ -32,7 +32,7 @@ namespace Eir.DevTools
 
         public static bool IsNullable(this PropertyInfo p)
         {
-            var nullabilityInfo = nullabilityContext.Create(p);
+            NullabilityInfo nullabilityInfo = nullabilityContext.Create(p);
             return nullabilityInfo.WriteState is NullabilityState.Nullable;
         }
 
@@ -45,7 +45,7 @@ namespace Eir.DevTools
 
         public static String Default(this PropertyInfo p)
         {
-            var nullabilityInfo = nullabilityContext.Create(p);
+            NullabilityInfo nullabilityInfo = nullabilityContext.Create(p);
             if (nullabilityInfo.WriteState is NullabilityState.Nullable)
                 return "null";
             return p.PropertyType.Default();
@@ -72,10 +72,10 @@ namespace Eir.DevTools
 
         private static string GetFriendlyNameOfArrayType(this Type type)
         {
-            var arrayMarker = string.Empty;
+            string arrayMarker = string.Empty;
             while (type.IsArray)
             {
-                var commas = new string(Enumerable.Repeat(',', type.GetArrayRank() - 1).ToArray());
+                string commas = new string(Enumerable.Repeat(',', type.GetArrayRank() - 1).ToArray());
                 arrayMarker += $"[{commas}]";
                 type = type.GetElementType();
             }
@@ -86,14 +86,14 @@ namespace Eir.DevTools
         {
             if (type.GetGenericTypeDefinition() == typeof(Nullable<>))
                 return type.GetGenericArguments().First().FriendlyName() + "?";
-            var friendlyName = type.Name;
-            var indexOfBacktick = friendlyName.IndexOf('`');
+            string friendlyName = type.Name;
+            int indexOfBacktick = friendlyName.IndexOf('`');
             if (indexOfBacktick > 0)
                 friendlyName = friendlyName.Remove(indexOfBacktick);
-            var typeParameterNames = type
+            IEnumerable<string> typeParameterNames = type
                 .GetGenericArguments()
                 .Select(typeParameter => typeParameter.FriendlyName());
-            var joinedTypeParameters = string.Join(", ", typeParameterNames);
+            string joinedTypeParameters = string.Join(", ", typeParameterNames);
             return string.Format("{0}<{1}>", friendlyName, joinedTypeParameters);
         }
 
