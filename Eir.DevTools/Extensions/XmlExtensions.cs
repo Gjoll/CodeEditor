@@ -13,7 +13,7 @@ namespace Eir.DevTools
         /// <summary>
         /// Access named attribute.
         /// </summary>
-        public static XmlAttribute Attribute(this XmlElement element, String name)
+        public static XmlAttribute? Attribute(this XmlElement element, String name)
         {
             if (element is null)
                 throw new ArgumentNullException(nameof(element));
@@ -41,7 +41,7 @@ namespace Eir.DevTools
             if (element is null)
                 throw new ArgumentNullException(nameof(element));
 
-            XmlAttribute retVal = element.Attributes[name];
+            XmlAttribute? retVal = element.Attributes[name];
             if (retVal == null)
                 throw new Exception($"Missing req   uired attribute '{name}'");
             return retVal;

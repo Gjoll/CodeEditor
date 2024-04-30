@@ -12,7 +12,7 @@ namespace Eir.DevTools
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static T RemoveFirst<T>(this List<T> list)
+        public static T? RemoveFirst<T>(this List<T> list)
             where T : class
         {
             if (list is null)

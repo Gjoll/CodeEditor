@@ -73,11 +73,11 @@ namespace Eir.DevTools
         private static string GetFriendlyNameOfArrayType(this Type type)
         {
             string arrayMarker = string.Empty;
-            while (type.IsArray)
+            while (type!.IsArray == true)
             {
                 string commas = new string(Enumerable.Repeat(',', type.GetArrayRank() - 1).ToArray());
                 arrayMarker += $"[{commas}]";
-                type = type.GetElementType();
+                type = type.GetElementType()!;
             }
             return type.FriendlyName() + arrayMarker;
         }
@@ -98,6 +98,6 @@ namespace Eir.DevTools
         }
 
         private static string GetFriendlyNameOfPointerType(this Type type) =>
-            type.GetElementType().FriendlyName() + "*";
+            type.GetElementType()!.FriendlyName() + "*";
     }
 }

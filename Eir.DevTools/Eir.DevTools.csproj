@@ -12,6 +12,8 @@
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<PackageReleaseNotes>Various development tools, used internally at Eir Solutions.</PackageReleaseNotes>
 		<PackageDescription>CodeEditor tools</PackageDescription>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

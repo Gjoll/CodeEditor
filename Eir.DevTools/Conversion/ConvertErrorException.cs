@@ -6,8 +6,8 @@ namespace Eir.DevTools
 {
     public class ConvertErrorException : Exception
     {
-        public String FileName { get; }
-        public String MethodName { get; }
+        public String FileName { get; } = String.Empty;
+        public String MethodName { get; } = String.Empty;
 
         public ConvertErrorException(String fileName, String methodName, String message) : base(message)
         {

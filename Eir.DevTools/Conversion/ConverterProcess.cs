@@ -29,7 +29,7 @@ namespace Eir.DevTools
             {
                 do
                 {
-                    String s = await p.StandardOutput.ReadLineAsync();
+                    String? s = await p.StandardOutput.ReadLineAsync();
                     s = s?.Replace("\r", "")?.Replace("\n", "")?.Trim();
                     if (String.IsNullOrEmpty(s) == false)
                         this.AddInfo(s);
@@ -40,7 +40,7 @@ namespace Eir.DevTools
             {
                 do
                 {
-                    String s = await p.StandardError.ReadLineAsync();
+                    String? s = await p.StandardError.ReadLineAsync();
                     s = s?.Replace("\r", "")?.Replace("\n", "")?.Trim();
                     if (String.IsNullOrEmpty(s) == false)
                         this.AddError(s);

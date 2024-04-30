@@ -10,9 +10,9 @@ namespace Eir.DevTools
     {
         public delegate void StatusDelegate(String className, String method, String msg);
 
-        public event StatusDelegate StatusErrors;
-        public event StatusDelegate StatusWarnings;
-        public event StatusDelegate StatusInfo;
+        public event StatusDelegate? StatusErrors;
+        public event StatusDelegate? StatusWarnings;
+        public event StatusDelegate? StatusInfo;
         public bool SkipDuplicateErrors { get; set; } = true;
 
         public IEnumerable<String> Errors => this.errors;

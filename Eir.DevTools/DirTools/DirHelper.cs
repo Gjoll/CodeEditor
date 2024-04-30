@@ -26,9 +26,14 @@ namespace Eir.DevTools
 
         public static void CreateDirPath(String path)
         {
+            if (String.IsNullOrEmpty(path))
+                throw new Exception($"Invalid path {path}");
             if (Directory.Exists(path) == true)
                 return;
-            CreateDirPath(Path.GetDirectoryName(path));
+            String? dirName = Path.GetDirectoryName(path);
+            if (String.IsNullOrEmpty(dirName))
+                throw new Exception($"Invalid dir name {dirName}");
+            CreateDirPath(dirName);
             Directory.CreateDirectory(path);
         }
 

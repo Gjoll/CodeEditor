@@ -38,7 +38,7 @@ namespace Eir.DevTools
         /// </summary>
         Dictionary<String, Object> userMacros = new Dictionary<string, Object>();
 
-        public String SavePath { get; set; }
+        public String SavePath { get; set; } = String.Empty;
 
         /// <summary>
         /// Constructor
@@ -96,7 +96,7 @@ namespace Eir.DevTools
         /// <param name="path"></param>
         public void Load(String[] lines, bool addMargin = true) => this.Blocks.Load(lines, addMargin);
 
-        public bool TryGetUserMacro(String name, out Object value)
+        public bool TryGetUserMacro(String name, out Object? value)
         {
             return this.userMacros.TryGetValue(name, out value);
         }
@@ -127,5 +127,17 @@ namespace Eir.DevTools
             this.userMacros.Remove(name);
             this.TryAddUserMacro(name, value);
         }
+
+        /// <summary>
+        /// Merge blocks that have names that match regular expression.
+        /// </summary>
+        public void Merge(String regEx, CodeEditor mergeFrom) =>
+            this.Blocks.Merge(regEx, mergeFrom.Blocks);
+
+        /// <summary>
+        /// Merge named children.
+        /// </summary>
+        public void MergeNamedChildren(String regEx, CodeEditor mergeFrom) =>
+            this.Blocks.MergeNamedChildren(regEx, mergeFrom.Blocks);
     }
 }

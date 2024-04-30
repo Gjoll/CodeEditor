@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace Eir.DevTools
@@ -32,6 +34,8 @@ namespace Eir.DevTools
 
         public String Name { get; }
         public IEnumerable<CodeBlockNested> AllNamedBlocks => this.NamedBlocks.Values;
+        public bool HasNamedBlocks => this.NamedBlocks.Count > 0;
+        public bool HasTextBlocks => this.Children.Count > this.NamedBlocks.Count;
 
         readonly Dictionary<String, CodeBlockNested> NamedBlocks = new Dictionary<String, CodeBlockNested>();
         Int32 macroInhibit = 0;
@@ -46,6 +50,91 @@ namespace Eir.DevTools
         }
 
         /// <summary>
+        /// return true if name matches regular expression one time
+        /// </summary>
+        public bool MatchName(String regEx)
+        {
+            Regex exp = new Regex(regEx);
+            var matches = exp.Matches(this.Name);
+            switch (matches.Count)
+            {
+                case 0: return false;
+                case 1: return true;
+                default:
+                    throw new Exception($"MatchName failed because name '{this.Name}' matched expression '{regEx}' multiple times");
+            }
+        }
+
+        /// <summary>
+        /// Merge this block the blocks in mergeFrom.
+        /// Names child blocks are only merged if they match the indicated regular expression.
+        /// </summary>
+        public void Merge(String regEx, CodeBlockNested mergeFrom)
+        {
+            if (!MatchName(regEx))
+            {
+                MergeNamedChildren(regEx, mergeFrom);
+                return;
+            }
+
+            if (this.HasNamedBlocks && this.HasTextBlocks)
+                throw new Exception($"Block '{this.Name}' can not be a merge target when it contain both named blocks and unnamed/text blocs");
+
+            if (mergeFrom.HasNamedBlocks && mergeFrom.HasTextBlocks)
+                throw new Exception($"Block '{mergeFrom.Name}' can not be a merge source when it contain both named blocks and unnamed/text blocs");
+
+            if (this.HasTextBlocks)
+                this.Clear();
+
+            foreach (CodeBlock mergeBlock in mergeFrom.Children)
+            {
+                CodeBlockNested? mergeBlockNested = mergeBlock as CodeBlockNested;
+                if (mergeBlockNested != null)
+                {
+                    CodeBlockNested? localBlock = this.Find(mergeBlockNested.Name);
+                    if (localBlock != null)
+                        localBlock.Merge(regEx, mergeBlockNested);
+                }
+                else
+                    this.Children.Add(mergeBlock);
+            }
+        }
+
+        /// <summary>
+        /// Merge this block children with the children of mergeFrom.
+        /// </summary>
+        public void MergeNamedChildren(String regEx, CodeBlockNested mergeFrom)
+        {
+            foreach (CodeBlock mergeBlock in mergeFrom.Children)
+            {
+                CodeBlockNested? mergeBlockNested = mergeBlock as CodeBlockNested;
+                if (mergeBlockNested != null)
+                {
+                    CodeBlockNested? localBlock = this.Find(mergeBlockNested.Name);
+                    if (localBlock != null)
+                        localBlock.Merge(regEx, mergeBlockNested);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Clear all content in named blocks with names that don't match the indicated suffix regular expression
+        /// </summary>
+        public void Clear(String regEx)
+        {
+            if (!MatchName(regEx))
+                return;
+
+            foreach (CodeBlock block in this.Children)
+            {
+                if (!(block is CodeBlockNested))
+                    block.Clear();
+            }
+            foreach (CodeBlockNested block in this.NamedBlocks.Values)
+                block.Clear(regEx);
+        }
+
+        /// <summary>
         /// Purge all children that are not in list.
         /// </summary>
         /// <param name="usedBlocks"></param>
@@ -57,7 +146,7 @@ namespace Eir.DevTools
             Int32 index = 0;
             while (index < this.Children.Count)
             {
-                CodeBlockNested child = this.Children[index] as CodeBlockNested;
+                CodeBlockNested? child = this.Children[index] as CodeBlockNested;
                 if (
                     (child != null) &&
                     (usedBlocks.Contains(child.Name) == false)
@@ -106,7 +195,7 @@ namespace Eir.DevTools
                 this.baseMargin = value.Substring(0, value.IndexOf(this.owner.BlockStart));
             }
         }
-        String startLine;
+        String startLine = String.Empty;
 
         public String MarginString => this.baseMargin + this.indentMargin;
         public Int32 MarginLength => this.baseMargin.Length + this.indentMargin.Length;
@@ -116,7 +205,7 @@ namespace Eir.DevTools
         /// <summary>
         /// String that ends block ('//-...')
         /// </summary>
-        public String EndLine { get; set; }
+        public String EndLine { get; set; } = String.Empty;
 
         /// <summary>
         /// Strings that make up code file.
@@ -151,7 +240,7 @@ namespace Eir.DevTools
         public CodeBlockNested SetIndent(Int32 indentLevel)
         {
             this.indentMargin = String.Empty;
-            for (Int32 i = 0; i <  indentLevel; i++)
+            for (Int32 i = 0; i < indentLevel; i++)
                 this.indentMargin = this.indentMargin + IndentOneLevel;
             return this;
         }
@@ -184,7 +273,7 @@ namespace Eir.DevTools
         /// <returns></returns>
         public Boolean Replace(String blockName, String[] code, bool addMargin)
         {
-            if (this.NamedBlocks.TryGetValue(blockName, out CodeBlockNested block) == false)
+            if (this.NamedBlocks.TryGetValue(blockName, out CodeBlockNested? block) == false)
                 return false;
             block.Children.Clear();
             block.Load(code, addMargin);
@@ -199,7 +288,7 @@ namespace Eir.DevTools
         /// <returns></returns>
         public CodeBlockNested FindRequired(String blockName)
         {
-            if (this.NamedBlocks.TryGetValue(blockName, out CodeBlockNested block) == false)
+            if (this.NamedBlocks.TryGetValue(blockName, out CodeBlockNested? block) == false)
                 throw new Exception($"Required block {blockName} not found");
             return block;
         }
@@ -209,10 +298,10 @@ namespace Eir.DevTools
         /// </summary>
         /// <param name="blockName"></param>
         /// <returns></returns>
-        public CodeBlockNested Find(String blockName, Boolean createFlag = false)
+        public CodeBlockNested? Find(String blockName, Boolean createFlag = false)
         {
             if (
-                (this.NamedBlocks.TryGetValue(blockName, out CodeBlockNested block) == false) &&
+                (this.NamedBlocks.TryGetValue(blockName, out CodeBlockNested? block) == false) &&
                 createFlag
             )
             {
@@ -323,7 +412,7 @@ namespace Eir.DevTools
         /// <param name="path"></param>
         void DoLoad(String[] lines, bool addMargin, ref Int32 index)
         {
-            CodeBlockText currentBlock = null;
+            CodeBlockText? currentBlock = null;
 
             while (index < lines.Length)
             {
@@ -391,7 +480,7 @@ namespace Eir.DevTools
         public CodeBlock AppendBlock(CodeBlock block)
         {
             this.Children.Add(block);
-            CodeBlockNested blockNested = block as CodeBlockNested;
+            CodeBlockNested? blockNested = block as CodeBlockNested;
             if (blockNested != null)
                 this.NamedBlocks.Add(blockNested.Name, blockNested);
             return block;
@@ -417,7 +506,7 @@ namespace Eir.DevTools
         /// <param name="path"></param>
         public CodeBlockNested AppendRaw(String line)
         {
-            CodeBlockText currentBlock = null;
+            CodeBlockText? currentBlock = null;
             if (this.Children.Count > 0)
                 currentBlock = this.Children[this.Children.Count - 1] as CodeBlockText;
 
@@ -436,7 +525,7 @@ namespace Eir.DevTools
         /// <summary>
         /// </summary>
         /// <param name="path"></param>
-        public CodeBlockNested AppendUniqueLine(String line, String margin = null)
+        public CodeBlockNested? AppendUniqueLine(String line, String? margin = null)
         {
             if (margin == null)
                 margin = this.MarginString;
@@ -455,7 +544,7 @@ namespace Eir.DevTools
         /// <summary>
         /// </summary>
         /// <param name="path"></param>
-        public CodeBlockNested AppendLine(String line, String margin = null)
+        public CodeBlockNested AppendLine(String line, String? margin = null)
         {
             if (margin == null)
                 margin = this.MarginString;
@@ -733,7 +822,7 @@ namespace Eir.DevTools
             String name,
             List<String> values)
         {
-            if (this.owner.TryGetUserMacro(name, out Object macroValue) == false)
+            if (this.owner.TryGetUserMacro(name, out Object? macroValue) == false)
             {
                 OutputRawMacro(sb, name, values);
                 return;
@@ -801,7 +890,7 @@ namespace Eir.DevTools
                     break;
 
                 default:
-                    throw new Exception($"Invalid macro type {macroValue.GetType().Name}");
+                    throw new Exception($"Invalid macro type {macroValue?.GetType().Name}");
             }
         }
 
@@ -841,7 +930,7 @@ namespace Eir.DevTools
             ref Int32 index)
         {
             StringBuilder current = new StringBuilder();
-            String name = null;
+            String name = String.Empty;
             List<String> values = new List<string>();
 
             Boolean valueFlag = false;

@@ -23,7 +23,7 @@ namespace Eir.DevTools
         }
         public delegate void LogMessageDelegate(LogLevels logLevel, String caller, String message);
 
-        public static event LogMessageDelegate LogEvent;
+        public static event LogMessageDelegate? LogEvent;
 
         public static void SetLog(LogMessageDelegate logger) => Log.LogEvent += logger;
 
